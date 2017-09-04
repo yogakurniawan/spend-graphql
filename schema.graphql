@@ -1,0 +1,20 @@
+type President {
+  name: String
+  party: String
+  term: String
+}
+
+type IphoneModel {
+  name: String
+  total_wallpaper: Int
+  meta_route: String
+}
+
+type RootQuery {
+  president(name: String, party: String, term: String): President
+  iphoneModel(name: String, total_wallpaper: Int, meta_route: String): IphoneModel
+}
+
+schema {
+  query: RootQuery
+}
