@@ -1,40 +1,41 @@
 import express from 'express';
+import cors from 'cors';
+import env from 'dotenv';
 import bodyParser from 'body-parser';
-import Mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
 import { seedIphoneModel, seedPresident } from './seed';
-import Schema from './schema';
-import Resolvers from './resolvers';
+import schema from './schema';
 import Connectors from './connectors';
+
+env.config();
 
 const PORT = 8080;
 const app = express();
+app.use(cors());
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+  throw new Error('You must provide a MongoLab URI');
+}
 
-Mongoose.Promise = global.Promise;
-Mongoose.connect('mongodb://localhost:27017/admin', (err) => {
+mongoose.Promise = global.Promise;
+mongoose.connect(MONGO_URI, (err) => {
   if (err) {
     return err;
   }
   return true;
 });
+mongoose.connection
+  .once('open', () => console.log('Connected to MongoDB instance.'))
+  .on('error', error => console.log('Error connecting to MongoDB:', error));
 
 seedIphoneModel();
 seedPresident();
 
-const executableSchema = makeExecutableSchema({
-  typeDefs: Schema,
-  resolvers: Resolvers,
-});
-
-app.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema: executableSchema,
+app.use(bodyParser.json());
+app.use('/graphql', graphqlExpress({
+  schema,
   context: {
     constructor: Connectors,
   },
