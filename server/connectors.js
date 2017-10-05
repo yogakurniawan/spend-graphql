@@ -1,5 +1,5 @@
-const PresidentModel = require('./model').President;
-const IphoneModelModel = require('./model').IphoneModel;
+import PresidentModel from './models/President';
+import IphoneModelModel from './models/IphoneModel';
 
 class President {
   constructor() {

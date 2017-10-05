@@ -1,5 +1,6 @@
-const request = require('request-promise');
-import { President, IphoneModel } from './models';
+import request from 'request-promise';
+import IphoneModel from './models/IphoneModel';
+import President from './models/President';
 
 export const seedPresident = () => {
   request('https://mysafeinfo.com/api/data?list=presidents&format=json')
