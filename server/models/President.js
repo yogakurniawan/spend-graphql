@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema; 
 
-export default Schema({
+const PresidentSchema = Schema({
   name: String,
   party: String,
   term: String,
 });
+
+export default Mongoose.model('President', PresidentSchema);
