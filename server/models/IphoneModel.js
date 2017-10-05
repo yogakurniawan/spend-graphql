@@ -7,4 +7,4 @@ const IphoneModelSchema = Schema({
   total_wallpaper: Number
 });
 
-export default Mongoose.model('IphoneModel', IphoneModelSchema);
+export default mongoose.model('IphoneModel', IphoneModelSchema);

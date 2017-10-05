@@ -7,4 +7,4 @@ const PresidentSchema = Schema({
   term: String,
 });
 
-export default Mongoose.model('President', PresidentSchema);
+export default mongoose.model('President', PresidentSchema);
